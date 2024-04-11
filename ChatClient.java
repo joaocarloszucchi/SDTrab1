@@ -11,6 +11,11 @@ import javax.swing.JOptionPane;
 import javax.swing.JScrollPane;
 import javax.swing.JTextArea;
 import javax.swing.JTextField;
+import javax.swing.JTextPane;
+import javax.swing.text.*;
+import java.awt.Color;
+import javax.swing.text.SimpleAttributeSet;
+import javax.swing.text.StyleConstants;
 
 /**
  * A simple Swing-based client for the chat server. Graphically it is a frame
@@ -33,7 +38,10 @@ public class ChatClient {
     PrintWriter out;
     JFrame frame = new JFrame("Chatter");
     JTextField textField = new JTextField(50);
-    JTextArea messageArea = new JTextArea(16, 50);
+    //JTextArea messageArea = new JTextArea(16, 50);
+    JTextPane messageArea = new JTextPane();
+    StyledDocument doc = messageArea.getStyledDocument();
+    SimpleAttributeSet keyWord;
 
     /**
      * Constructs the client by laying out the GUI and registering a listener with
@@ -44,6 +52,14 @@ public class ChatClient {
      */
     public ChatClient(String serverAddress) {
         this.serverAddress = serverAddress;
+
+        messageArea = new JTextPane();
+        doc = messageArea.getStyledDocument();
+        keyWord = new SimpleAttributeSet();
+
+        StyleConstants.setForeground(keyWord, Color.RED);
+        StyleConstants.setBackground(keyWord, Color.YELLOW);
+        StyleConstants.setBold(keyWord, true);
 
         textField.setEditable(false);
         messageArea.setEditable(false);
@@ -79,7 +95,13 @@ public class ChatClient {
                     this.frame.setTitle("Chatter - " + line.substring(13));
                     textField.setEditable(true);
                 } else if (line.startsWith("MESSAGE")) {
-                    messageArea.append(line.substring(8) + "\n");
+                    try {
+                        doc.insertString(doc.getLength(), line.substring(8) + "\n", null );
+                    } catch(Exception e) { System.out.println(e); }
+                } else if (line.startsWith("SERVER")) {
+                    try {
+                        doc.insertString(doc.getLength(), line.substring(8) + "\n", keyWord );
+                    } catch(Exception e) { System.out.println(e); }
                 }
             }
         } finally {

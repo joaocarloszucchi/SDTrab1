@@ -85,7 +85,7 @@ public class ChatServer {
                 // But BEFORE THAT, let everyone else know that the new person has joined!
                 out.println("NAMEACCEPTED " + name);
                 for (PrintWriter writer : writers) {
-                    writer.println("MESSAGE " + name + " has joined");
+                    writer.println("SERVER " + name + " has joined");
                 }
                 writers.add(out);
 
@@ -109,7 +109,7 @@ public class ChatServer {
                     System.out.println(name + " is leaving");
                     names.remove(name);
                     for (PrintWriter writer : writers) {
-                        writer.println("MESSAGE " + name + " has left");
+                        writer.println("SERVER " + name + " has left");
                     }
                 }
                 try {
