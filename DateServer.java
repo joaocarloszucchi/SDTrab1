@@ -16,7 +16,7 @@ public class DateServer {
         try (var listener = new ServerSocket(59090)) {
             System.out.println("The date server is running...");
             while (true) {
-                try (var socket = listener.accept()) {
+                try (var socket = listener.accept()) {//accept() returns a socket that is connected to the client
                     var out = new PrintWriter(socket.getOutputStream(), true);
                     out.println(new Date().toString());
                 }

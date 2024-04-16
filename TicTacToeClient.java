@@ -8,14 +8,12 @@ import java.awt.event.MouseEvent;
 import java.util.Scanner;
 import java.io.PrintWriter;
 import java.net.Socket;
-
 import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 
 public class TicTacToeClient {
-
     private JFrame frame = new JFrame("Tic Tac Toe");
     private JLabel messageLabel = new JLabel("...");
 
@@ -27,7 +25,6 @@ public class TicTacToeClient {
     private PrintWriter out;
 
     public TicTacToeClient(String serverAddress) throws Exception {
-
         socket = new Socket(serverAddress, 58901);
         in = new Scanner(socket.getInputStream());
         out = new PrintWriter(socket.getOutputStream(), true);
@@ -52,15 +49,6 @@ public class TicTacToeClient {
         frame.getContentPane().add(boardPanel, BorderLayout.CENTER);
     }
 
-    /**
-     * The main thread of the client will listen for messages from the server. The
-     * first message will be a "WELCOME" message in which we receive our mark. Then
-     * we go into a loop listening for any of the other messages, and handling each
-     * message appropriately. The "VICTORY", "DEFEAT", "TIE", and
-     * "OTHER_PLAYER_LEFT" messages will ask the user whether or not to play another
-     * game. If the answer is no, the loop is exited and the server is sent a "QUIT"
-     * message.
-     */
     public void play() throws Exception {
         try {
             var response = in.nextLine();
@@ -102,7 +90,6 @@ public class TicTacToeClient {
             frame.dispose();
         }
     }
-
     static class Square extends JPanel {
         JLabel label = new JLabel();
 
@@ -118,7 +105,6 @@ public class TicTacToeClient {
             label.setText(text + "");
         }
     }
-
     public static void main(String[] args) throws Exception {
         if (args.length != 1) {
             System.err.println("Pass the server IP as the sole command line argument");

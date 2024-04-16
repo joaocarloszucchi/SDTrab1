@@ -14,6 +14,8 @@ import javax.swing.JTextField;
 import javax.swing.JTextPane;
 import javax.swing.text.*;
 import java.awt.Color;
+import java.awt.Dimension;
+
 import javax.swing.text.SimpleAttributeSet;
 import javax.swing.text.StyleConstants;
 
@@ -39,9 +41,11 @@ public class ChatClient {
     JFrame frame = new JFrame("Chatter");
     JTextField textField = new JTextField(50);
     //JTextArea messageArea = new JTextArea(16, 50);
+    //
     JTextPane messageArea = new JTextPane();
     StyledDocument doc = messageArea.getStyledDocument();
     SimpleAttributeSet keyWord;
+    //
 
     /**
      * Constructs the client by laying out the GUI and registering a listener with
@@ -53,8 +57,6 @@ public class ChatClient {
     public ChatClient(String serverAddress) {
         this.serverAddress = serverAddress;
 
-        messageArea = new JTextPane();
-        doc = messageArea.getStyledDocument();
         keyWord = new SimpleAttributeSet();
 
         StyleConstants.setForeground(keyWord, Color.RED);
@@ -63,6 +65,7 @@ public class ChatClient {
 
         textField.setEditable(false);
         messageArea.setEditable(false);
+        messageArea.setPreferredSize(new Dimension(600, 400));
         frame.getContentPane().add(textField, BorderLayout.SOUTH);
         frame.getContentPane().add(new JScrollPane(messageArea), BorderLayout.CENTER);
         frame.pack();
@@ -100,7 +103,7 @@ public class ChatClient {
                     } catch(Exception e) { System.out.println(e); }
                 } else if (line.startsWith("SERVER")) {
                     try {
-                        doc.insertString(doc.getLength(), line.substring(8) + "\n", keyWord );
+                        doc.insertString(doc.getLength(), line.substring(7) + "\n", keyWord );
                     } catch(Exception e) { System.out.println(e); }
                 }
             }
